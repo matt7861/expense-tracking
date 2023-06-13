@@ -1,29 +1,39 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 
+// ExpenseForm component which receives onSaveExpenseData and displayHandler as props
 const ExpenseForm = ({ onSaveExpenseData, displayHandler }) => {
+  // Define the initial state for the form
   const [userInput, setUserInput] = useState({
     title: "",
     amount: "",
     date: "",
   });
 
+  // Define handler for input changes
   const userInputHandler = (event) => {
     setUserInput((prev) => {
+      // Update the relevant state property based on the input name
       return { ...prev, [event.target.name]: event.target.value };
     });
   };
 
+  // Define handler for form submission
   const submitHandler = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent page reload
 
+    // Prepare the data to be saved
     const expenseData = {
-      title: enteredTitle,
-      amount: +enteredAmount,
+      title: userInput.title,
+      amount: +userInput.amount,
       date: new Date(userInput.date),
     };
+
+    // Invoke the onSaveExpenseData function passed as prop
     onSaveExpenseData(expenseData);
+    // Invoke the displayHandler function to handle hiding/displaying the form
     displayHandler();
+    // Reset form fields
     setUserInput({
       title: "",
       amount: "",
@@ -35,7 +45,7 @@ const ExpenseForm = ({ onSaveExpenseData, displayHandler }) => {
     <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
-          <label htmlFor="">Title</label>
+          <label>Title</label>
           <input
             placeholder="Title"
             onChange={userInputHandler}
@@ -45,7 +55,7 @@ const ExpenseForm = ({ onSaveExpenseData, displayHandler }) => {
           />
         </div>
         <div className="new-expense__control">
-          <label htmlFor="">Amount</label>
+          <label>Amount</label>
           <input
             placeholder="Amount"
             onChange={userInputHandler}
@@ -57,7 +67,7 @@ const ExpenseForm = ({ onSaveExpenseData, displayHandler }) => {
           />
         </div>
         <div className="new-expense__control">
-          <label htmlFor="">Date</label>
+          <label>Date</label>
           <input
             value={userInput.date}
             name="date"
@@ -70,7 +80,7 @@ const ExpenseForm = ({ onSaveExpenseData, displayHandler }) => {
       </div>
       <div className="new-expense__actions">
         <button onClick={displayHandler}>Cancel</button>
-        <button stype="submit">Add Expense</button>
+        <button type="submit">Add Expense</button>
       </div>
     </form>
   );
